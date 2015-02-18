@@ -67,6 +67,8 @@ public class MIEPresenterImplTest {
 		
 	    Mockito.verify(mockView,Mockito.times(1)).showOpenDialog();
 	    Mockito.verify(mockView,Mockito.times(1)).showImage(Mockito.anyObject());
+	    
+	    Mockito.verify(mockView,Mockito.never()).scaleImage(Mockito.anyDouble());
 	}
 	
 	@Test
@@ -151,6 +153,7 @@ public class MIEPresenterImplTest {
 		MIEView mockView = Mockito.mock(MIEView.class);
 		MIEInteractor mockInteractor = Mockito.mock(MIEInteractorImpl.class);
 		MIEPresenter presenter = new MIEPresenterImpl(mockView, mockInteractor);
+		presenter.onNew();
 		presenter.onMousePressed(5, 5);
 		
 		// verify if image is refreshed in MIEView
@@ -164,8 +167,7 @@ public class MIEPresenterImplTest {
 		MIEPresenter presenter = new MIEPresenterImpl(mockView, mockInteractor);
 		
 		int zoom = 150;
-		double scaleFactor = zoom/100.0f;
-		
+		double scaleFactor = zoom / 100.0;
 		presenter.onZoom(zoom);
 		Mockito.verify(mockView,Mockito.times(1)).scaleImage(scaleFactor);
 	}

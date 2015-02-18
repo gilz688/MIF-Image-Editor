@@ -75,7 +75,6 @@ public class MIEController implements MIEView {
 
 	@FXML
 	public void onNew() {
-		resetScale();
 		presenter.onNew();
 	}
 
@@ -85,7 +84,6 @@ public class MIEController implements MIEView {
 	
 	@FXML
 	public void onOpen() {
-		resetScale();
 		presenter.onOpen();
 	}
 

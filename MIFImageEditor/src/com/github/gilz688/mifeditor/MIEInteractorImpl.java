@@ -41,14 +41,14 @@ public class MIEInteractorImpl implements MIEInteractor {
 			throws FileNotFoundException, IOException {
 		int w = mifImage.getWidth();
 		int h = mifImage.getHeight();
-		Image image = viewImage(mifImage, w, h);
+		Image image = viewImage(mifImage, w, h, 10);
 		BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
 		ImageIO.write(bImage, format, file);
 	}
 
 	@Override
-	public Image viewImage(MIFImage mifImage, int width, int height) {
-		WritableImage image = new WritableImage(width, height);
+	public Image viewImage(MIFImage mifImage, int width, int height, int scaleFactor) {
+		WritableImage image = new WritableImage(width*scaleFactor, height*scaleFactor);
 		PixelWriter writer = image.getPixelWriter();
 		try {
 			ColorConverter converter = new ColorConverter(6, 24);
@@ -57,7 +57,12 @@ public class MIEInteractorImpl implements MIEInteractor {
 					int color = mifImage.getData(y * width + x);
 
 					color = converter.convertRGBColor(color) | 0xff000000;
-					writer.setArgb(x, y, color);
+					for (int dy = 0; dy < scaleFactor; dy++) {
+						for (int dx = 0; dx < scaleFactor; dx++) {
+							writer.setArgb(x * scaleFactor + dx, y * scaleFactor + dy, color);
+						}
+					}
+					
 				}
 			}
 		} catch (InvalidBitrateException e) {
@@ -89,15 +94,17 @@ public class MIEInteractorImpl implements MIEInteractor {
 	}
 
 	@Override
-	public MIFImage drawPixel(MIFImage mifImage, double rawX, double rawY, double red, double green, double blue) {
+	public MIFImage drawPixel(MIFImage mifImage, double rawX, double rawY,
+			double red, double green, double blue) {
 		int width = (int) mifImage.getWidth();
 		int height = mifImage.getHeight();
 		int x = (int) (rawX * width);
 		int y = (int) (rawY * height);
 		ColorConverter converter;
 		try {
-			converter = new ColorConverter(24,6);
-			mifImage.putData(y * width + x, converter.convertRGBColor(red*255, green*255, blue*255));
+			converter = new ColorConverter(24, 6);
+			mifImage.putData(y * width + x, converter.convertRGBColor(
+					red * 255, green * 255, blue * 255));
 		} catch (InvalidBitrateException e) {
 			e.printStackTrace();
 		}

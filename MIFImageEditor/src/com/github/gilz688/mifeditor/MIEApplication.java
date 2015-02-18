@@ -22,7 +22,6 @@ public class MIEApplication extends Application {
 			loader.setLocation(MIEApplication.class
 					.getResource("view/MIE.fxml"));
 			rootLayout = (AnchorPane) loader.load();
-
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(rootLayout);
 			scene.getStylesheets().add(

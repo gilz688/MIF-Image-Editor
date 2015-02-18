@@ -32,7 +32,8 @@ public class MIEPresenterImpl implements MIEPresenter {
 
 	@Override
 	public void onNew() {
-		mifImage = new MIFImage(100,100);
+		mifImage = new MIFImage(100, 100);
+		view.resetScale();
 		updateImage();
 		view.setTitle("Untitled Image");
 	}
@@ -40,7 +41,8 @@ public class MIEPresenterImpl implements MIEPresenter {
 	@Override
 	public void onOpen() {
 		File file = view.showOpenDialog();
-		if (file != null){
+		if (file != null) {
+			view.resetScale();
 			try {
 				if (FileUtils.getExtension(file).equalsIgnoreCase("mif")) {
 					mifImage = interactor.openMIFImage(file);
@@ -78,7 +80,7 @@ public class MIEPresenterImpl implements MIEPresenter {
 
 		switch (extension) {
 		case "":
-			currentFile = new File(currentFile.getAbsolutePath()+".mif");
+			currentFile = new File(currentFile.getAbsolutePath() + ".mif");
 		case "mif":
 			try {
 				interactor.saveMIFImage(mifImage, currentFile);
@@ -99,7 +101,7 @@ public class MIEPresenterImpl implements MIEPresenter {
 
 	@Override
 	public void onQuit() {
-		 Platform.exit();
+		Platform.exit();
 	}
 
 	@Override
@@ -109,15 +111,19 @@ public class MIEPresenterImpl implements MIEPresenter {
 	}
 
 	public void updateImage() {
-		int w = mifImage.getWidth();
-		int h = mifImage.size() / w;
-		Image actualImage = interactor.viewImage(mifImage, w, h);
-		view.showImage(actualImage);
+		if(mifImage != null){
+			int w = mifImage.getWidth();
+			int h = mifImage.size() / w;
+		
+			Image actualImage = interactor.viewImage(mifImage, w, h, 10);
+			view.showImage(actualImage);
+		}
 	}
 
 	@Override
 	public void onZoom(int zoom) {
-		view.scaleImage(zoom / 100.0f);
+		double scaleFactor = zoom / 100.0f;
+		view.scaleImage(scaleFactor);
 	}
 
 	@Override

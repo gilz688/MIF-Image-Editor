@@ -23,4 +23,6 @@ public interface MIEView {
 
 	public void setStage(Stage stage);
 
+	public void resetScale();
+
 }

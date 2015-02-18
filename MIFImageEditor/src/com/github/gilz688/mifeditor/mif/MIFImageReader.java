@@ -1,4 +1,5 @@
-package com.github.gilz688.mifeditor;
+package com.github.gilz688.mifeditor.mif;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MIFImageReader {
-	public MIFImage read(File file) throws FileNotFoundException, IOException{
+	public MIFImage read(File file) throws FileNotFoundException, IOException {
 		MIFImage image = new MIFImage();
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String line;
@@ -48,7 +49,7 @@ public class MIFImageReader {
 						}
 					}
 					if (line.trim().equalsIgnoreCase("End;")) {
-						if(image.size()==19200){
+						if (image.size() == 19200) {
 							image.setpWidth(160);
 						}
 						break;

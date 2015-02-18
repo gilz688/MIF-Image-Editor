@@ -39,8 +39,8 @@ public class MIFImageReader {
 						if (mlMatcher.matches()) {
 							int address = Integer.parseInt(mlMatcher.group(1));
 							String[] values = mlMatcher.group(2).split(" ");
-							if (image.getpWidth() == -1)
-								image.setpWidth(values.length);
+							if (image.getWidth() == -1)
+								image.setWidth(values.length);
 							for (String str : values) {
 								int value = Integer.parseInt(str, 2);
 								image.putData(address, value);
@@ -50,7 +50,7 @@ public class MIFImageReader {
 					}
 					if (line.trim().equalsIgnoreCase("End;")) {
 						if (image.size() == 19200) {
-							image.setpWidth(160);
+							image.setWidth(160);
 						}
 						break;
 					}

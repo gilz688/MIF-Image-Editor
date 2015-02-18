@@ -13,9 +13,16 @@ public interface MIEInteractor {
 	public MIFImage openMIFImage(File file)
 			throws FileNotFoundException, IOException;
 
-	public void saveMIFImage(MIFImage image, File file)
+	public void saveMIFImage(MIFImage mifImage, File file)
 			throws FileNotFoundException, IOException;
 
-	public Image viewImage(MIFImage mif, int width, int height);
+	public Image viewImage(MIFImage mifImage, int width, int height);
 
+	public MIFImage convertToMIF(Image image);
+
+	public void saveImage(MIFImage mifImage, String format, File file)
+			throws FileNotFoundException, IOException;
+
+	public MIFImage drawPixel(MIFImage mifImage, double x, double y,
+			double red, double green, double blue);
 }

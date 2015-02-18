@@ -14,8 +14,10 @@ public interface MIEPresenter {
 
 	public void onQuit();
 
-	public void onMousePressed(int x, int y);
+	public void onMousePressed(double x, double y);
 
 	public void onZoom(int zoom);
+
+	public void onColorPick(double red, double blue, double green);
 
 }

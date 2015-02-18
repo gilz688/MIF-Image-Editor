@@ -1,4 +1,4 @@
-package com.github.gilz688.mifeditor.tests;
+package com.github.gilz688.tests.mifeditor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -55,9 +55,10 @@ public class MIEPresenterImplTest {
 		
 		// create mock File and MIFImage
 		File mockFile = Mockito.mock(File.class);
+		Mockito.when(mockFile.getName()).thenReturn("dummy.mif");
 		MIFImage mockImage = Mockito.mock(MIFImage.class);
 		Mockito.when(mockInteractor.openMIFImage(mockFile)).thenReturn(mockImage);
-		Mockito.when(mockImage.getpWidth()).thenReturn(500);
+		Mockito.when(mockImage.getWidth()).thenReturn(500);
 		Mockito.when(mockImage.size()).thenReturn(1000);
 		
 		// return mock File in Open Dialog
@@ -123,7 +124,7 @@ public class MIEPresenterImplTest {
 		// return mock MIFImage in MIEInteractor
 		MIFImage mockImage = Mockito.mock(MIFImage.class);
 		Mockito.when(mockInteractor.openMIFImage(mockFile)).thenReturn(mockImage);
-		Mockito.when(mockImage.getpWidth()).thenReturn(500);
+		Mockito.when(mockImage.getWidth()).thenReturn(500);
 		Mockito.when(mockImage.size()).thenReturn(1000);
 		
 		presenter.onOpen();

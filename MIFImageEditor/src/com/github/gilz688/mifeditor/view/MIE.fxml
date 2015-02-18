@@ -44,7 +44,7 @@
       <ToolBar layoutY="25.0" prefHeight="40.0" prefWidth="597.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <items>
             <Label text="Color:" />
-            <ColorPicker fx:id="colorPicker" prefHeight="25.0" prefWidth="107.0" promptText="Color" />
+            <ColorPicker fx:id="colorPicker" onAction="#onColorPick" prefHeight="25.0" prefWidth="107.0" promptText="Color" />
             <Separator orientation="VERTICAL" prefHeight="33.0" prefWidth="19.0" />
             <Label text="Zoom:" />
             <Slider fx:id="zoomSlider" max="400.0" min="75.0" prefHeight="33.0" prefWidth="375.0" showTickLabels="true" showTickMarks="true" value="100.0">

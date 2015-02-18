@@ -1,10 +1,12 @@
-package com.github.gilz688.mifeditor.tests;
+package com.github.gilz688.tests.utils;
 
 import static org.junit.Assert.*;
+
 import java.io.File;
+
 import org.junit.Test;
 
-import com.github.gilz688.mifeditor.FileUtils;
+import com.github.gilz688.mifeditor.utils.FileUtils;
 
 public class FileUtilsTest {
 

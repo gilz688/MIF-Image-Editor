@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 public class MIEApplication extends Application {
 	private Stage primaryStage;
 	private AnchorPane rootLayout;
-	private static final String applicationName = "MIF Image Editor";
+	public static final String APPLICATION_NAME = "MIF Image Editor";
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -27,12 +27,12 @@ public class MIEApplication extends Application {
 			Scene scene = new Scene(rootLayout);
 			scene.getStylesheets().add(
 					getClass().getResource("application.css").toExternalForm());
-			primaryStage.setTitle(applicationName);
+			primaryStage.setTitle(APPLICATION_NAME);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 
 			MIEView view = (MIEView) loader.getController();
-			view.setScene(scene);
+			view.setStage(primaryStage);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

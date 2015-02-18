@@ -1,8 +1,9 @@
 package com.github.gilz688.mifeditor.proto;
 
 import java.io.File;
-import javafx.scene.Scene;
+
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 public interface MIEView {
 
@@ -12,12 +13,14 @@ public interface MIEView {
 
 	public void showErrorDialog(String localizedMessage);
 
-	public void setScene(Scene scene);
-
 	public abstract File showSaveDialog();
 
 	public abstract void showImage(Image image);
 
 	public abstract void scaleImage(double scaleFactor);
+
+	public void setTitle(String path);
+
+	public void setStage(Stage stage);
 
 }

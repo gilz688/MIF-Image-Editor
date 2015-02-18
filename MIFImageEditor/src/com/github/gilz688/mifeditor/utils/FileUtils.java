@@ -1,4 +1,4 @@
-package com.github.gilz688.mifeditor;
+package com.github.gilz688.mifeditor.utils;
 
 import java.io.File;
 

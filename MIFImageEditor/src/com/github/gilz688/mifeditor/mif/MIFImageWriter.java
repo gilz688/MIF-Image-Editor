@@ -21,7 +21,7 @@ public class MIFImageWriter {
 		}
 		bw.write("Content\nBEGIN\n");
 		bw.write("\t[0.." + String.valueOf(image.size() - 1) + "] : 000000;\n");
-		int pWidth = image.getpWidth();
+		int pWidth = image.getWidth();
 		int rows = image.size() / pWidth;
 		for (int i = rows - 1; i > -1; i--) {
 			bw.write("\t" + i * pWidth + " : ");

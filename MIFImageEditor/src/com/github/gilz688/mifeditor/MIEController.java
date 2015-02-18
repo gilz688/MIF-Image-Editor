@@ -4,21 +4,24 @@ import java.io.File;
 
 import com.github.gilz688.mifeditor.proto.MIEPresenter;
 import com.github.gilz688.mifeditor.proto.MIEView;
+
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class MIEController implements MIEView {
+	
 	@FXML
 	ColorPicker colorPicker;
-	
+
 	@FXML
 	ImageView imageView;
 
@@ -28,10 +31,11 @@ public class MIEController implements MIEView {
 	@FXML
 	ScrollPane scrollPane;
 
-	private Scene scene;
 	private Scale scale;
 	private MIEPresenter presenter;
-	private final FileChooser fileChooser = new FileChooser();;
+	private final FileChooser fileChooser = new FileChooser();
+
+	private Stage stage;;
 
 	@FXML
 	private void initialize() {
@@ -43,13 +47,24 @@ public class MIEController implements MIEView {
 				(observable, oldValue, newValue) -> {
 					presenter.onZoom(newValue.intValue());
 				});
+
+		imageView.addEventHandler(MouseEvent.MOUSE_CLICKED,
+				(event) -> {
+			        double w = imageView.getBoundsInLocal().getWidth();
+			        double h = imageView.getBoundsInLocal().getHeight();
+					double x = event.getX()/w;
+					double y = event.getY()/h;
+					presenter.onMousePressed(x, y);
+				});
+		
+		colorPicker.setValue(Color.BLACK);
 	}
 
 	private void configureFileChooser() {
 		fileChooser.setTitle("Open Image");
 		fileChooser.getExtensionFilters().addAll(
 				new FileChooser.ExtensionFilter("MIF files", "*.mif"),
-				new FileChooser.ExtensionFilter("All Images", "*.bmp", "*.png",
+				new FileChooser.ExtensionFilter("All Images", "*.mif", "*.bmp", "*.png",
 						"*.gif"));
 	}
 
@@ -60,11 +75,17 @@ public class MIEController implements MIEView {
 
 	@FXML
 	public void onNew() {
+		resetScale();
 		presenter.onNew();
 	}
 
+	public void resetScale(){
+		zoomSlider.setValue(100);
+	}
+	
 	@FXML
 	public void onOpen() {
+		resetScale();
 		presenter.onOpen();
 	}
 
@@ -84,15 +105,14 @@ public class MIEController implements MIEView {
 	}
 
 	@FXML
-	public void onMousePressed(MouseEvent event) {
-		final double rawX = event.getX();
-		final double rawY = event.getY();
-		int x, y;
-		x = (int) (rawX / imageView.getFitWidth());
-		y = (int) (rawY / imageView.getFitHeight());
-		presenter.onMousePressed(x, y);
+	public void onColorPick() {
+		Color color = colorPicker.getValue();
+		double red = color.getRed();
+		double green = color.getGreen();
+		double blue = color.getBlue();
+		presenter.onColorPick(red,blue,green);
 	}
-
+	
 	@Override
 	public void showAboutDialog() {
 
@@ -100,36 +120,37 @@ public class MIEController implements MIEView {
 
 	@Override
 	public File showOpenDialog() {
-		return fileChooser.showOpenDialog(scene.getWindow());
+		return fileChooser.showOpenDialog(stage);
 	}
 
 	@Override
 	public void showErrorDialog(String localizedMessage) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
-	public void setScene(Scene scene) {
-		this.scene = scene;
+	public void setStage(Stage stage) {
+		this.stage = stage;
 	}
 
 	@Override
 	public File showSaveDialog() {
-		return fileChooser.showSaveDialog(scene.getWindow());
+		return fileChooser.showSaveDialog(stage);
 	}
 
 	@Override
 	public void showImage(Image image) {
 		imageView.setImage(image);
-		zoomSlider.setValue(100);
-		scale.setX(1);
-		scale.setY(1);
 	}
 
 	@Override
 	public void scaleImage(double scaleFactor) {
 		scale.setX(scaleFactor);
 		scale.setY(scaleFactor);
+	}
+
+	@Override
+	public void setTitle(String path) {
+		stage.setTitle(MIEApplication.APPLICATION_NAME + " - " + path);
 	}
 }

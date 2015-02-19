@@ -5,4 +5,7 @@ Description:
 * The MIF created using this tool can be used to initialize a memory block on the FPGA and may be loaded into the VGA controller RAM memory.
 * The old version of this application used Swing UI. I have rewritten most of the UI in JavaFx.
 
+Download:
+* [MIFEditor.jar](https://github.com/gilz688/MIF-Image-Editor/raw/master/jar/MIFIEditor.jar)
+
 ![Alt text](https://raw.githubusercontent.com/gilz688/MIF-Image-Editor/master/screenshots/01.png "Screenshot")

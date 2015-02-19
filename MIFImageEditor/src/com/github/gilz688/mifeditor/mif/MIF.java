@@ -8,6 +8,22 @@ public class MIF {
 	private Map<String, String> variables = new LinkedHashMap<>();
 	private Map<Integer, Integer> data = new HashMap<>();
 	
+	public static final String RADIX_BINARY = "bin";
+	public static final String RADIX_OCTAL = "oct";
+	public static final String RADIX_DECIMAL = "dec";
+	public static final String RADIX_HEXADECIMAL = "hex";
+	
+	public MIF(){
+		setup();
+	}
+	
+	public void setup(){
+		putVariable("Width", "6");
+		putVariable("Address_radix", RADIX_HEXADECIMAL);
+		putVariable("Data_radix", RADIX_BINARY);
+		putVariable("Depth", "0");
+	}
+	
 	public Map<String, String> getVariables() {
 		return variables;
 	}
@@ -39,5 +55,16 @@ public class MIF {
 	public int size() {
 		return data.size();
 	}
+	
+	public int getDepth(){
+		return Integer.parseInt(getVariable("Depth"));
+	}
+	
+	public int getBitWidth() {
+		return Integer.parseInt(getVariable("Width"));
+	}
 
+	public void setBitWidth(int bitWidth) {
+		putVariable("Width",Integer.toString(bitWidth));
+	}
 }

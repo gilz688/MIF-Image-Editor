@@ -20,4 +20,6 @@ public interface MIEPresenter {
 
 	public void onColorPick(double red, double blue, double green);
 
+	public void onEyedropperToolClick(double x, double y);
+
 }

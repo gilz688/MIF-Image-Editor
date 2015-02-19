@@ -18,11 +18,13 @@ public class MIEPresenterImpl implements MIEPresenter {
 	private MIEView view;
 	private File currentFile;
 	private double red, blue, green;
+	private boolean changes;
 
 	public MIEPresenterImpl(MIEView view, MIEInteractor interactor) {
 		this.view = view;
 		this.interactor = interactor;
 		currentFile = null;
+		changes = false;
 	}
 
 	@Override
@@ -32,10 +34,32 @@ public class MIEPresenterImpl implements MIEPresenter {
 
 	@Override
 	public void onNew() {
-		mifImage = new MIFImage(100, 100);
+		if (changes) {
+			String filename = currentFile == null ? "Untitled Image"
+					: currentFile.getName();
+			int result = view.showConfirmationDialog("Unsaved Changes in \""
+					+ filename + "\"", "Do you want to save these changes?");
+			switch (result) {
+			case MIEView.RESULT_YES:
+				onSave();
+				if (!changes)
+					break;
+			case MIEView.RESULT_CANCEL:
+				return;
+			default:
+			}
+		}
+		createNewFile();
+	}
+
+	private void createNewFile() {
+		mifImage = new MIFImage(20, 20);
+		red = blue = green = 1;
 		view.resetScale();
 		updateImage();
+		currentFile = null;
 		view.setTitle("Untitled Image");
+		changes = false;
 	}
 
 	@Override
@@ -54,6 +78,7 @@ public class MIEPresenterImpl implements MIEPresenter {
 				updateImage();
 				currentFile = file;
 				view.setTitle(file.getAbsolutePath());
+				changes = false;
 			} catch (IOException e) {
 				view.showErrorDialog(e.getLocalizedMessage());
 			}
@@ -85,6 +110,7 @@ public class MIEPresenterImpl implements MIEPresenter {
 			try {
 				interactor.saveMIFImage(mifImage, currentFile);
 				view.setTitle(currentFile.getAbsolutePath());
+				changes = false;
 			} catch (IOException e) {
 				view.showErrorDialog(e.getLocalizedMessage());
 			}
@@ -93,6 +119,7 @@ public class MIEPresenterImpl implements MIEPresenter {
 			try {
 				interactor.saveImage(mifImage, extension, currentFile);
 				view.setTitle(currentFile.getAbsolutePath());
+				changes = false;
 			} catch (IOException e) {
 				view.showErrorDialog(e.getLocalizedMessage());
 			}
@@ -101,20 +128,38 @@ public class MIEPresenterImpl implements MIEPresenter {
 
 	@Override
 	public void onQuit() {
+		if (changes) {
+			String filename = currentFile == null ? "Untitled Image"
+					: currentFile.getName();
+			int result = view
+					.showConfirmationDialog("Unsaved Changes in \"" + filename
+							+ "\"",
+							"Do you want to save these changes first before closing this app?");
+			switch (result) {
+			case MIEView.RESULT_YES:
+				onSave();
+			case MIEView.RESULT_CANCEL:
+				return;
+			default:
+			}
+		}
 		Platform.exit();
 	}
 
 	@Override
 	public void onMousePressed(double x, double y) {
-		mifImage = interactor.drawPixel(mifImage, x, y, red, green, blue);
-		updateImage();
+		if (mifImage != null) {
+			mifImage = interactor.drawPixel(mifImage, x, y, red, green, blue);
+			changes = true;
+			updateImage();
+		}
 	}
 
 	public void updateImage() {
-		if(mifImage != null){
+		if (mifImage != null) {
 			int w = mifImage.getWidth();
 			int h = mifImage.size() / w;
-		
+
 			Image actualImage = interactor.viewImage(mifImage, w, h, 10);
 			view.showImage(actualImage);
 		}
@@ -131,6 +176,17 @@ public class MIEPresenterImpl implements MIEPresenter {
 		this.red = red;
 		this.blue = blue;
 		this.green = green;
+	}
+
+	@Override
+	public void onEyedropperToolClick(double x, double y) {
+		if (mifImage != null) {
+			int color = interactor.eyedropper(mifImage, x, y);
+			red = ((color >> 16) & 255) / 255.0;
+			green = ((color >> 8) & 255) / 255.0;
+			blue = (color & 255) / 255.0;
+			view.setColorPickerValue(color);
+		}
 	}
 
 }

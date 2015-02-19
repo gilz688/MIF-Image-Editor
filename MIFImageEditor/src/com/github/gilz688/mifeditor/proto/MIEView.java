@@ -25,4 +25,11 @@ public interface MIEView {
 
 	public void resetScale();
 
+	public int showConfirmationDialog(String header, String content);
+
+	public static final int RESULT_CANCEL = 0;	
+	public static final int RESULT_YES = 1;
+	public static final int RESULT_NO = 2;
+	public void setColorPickerValue(int color);
+
 }

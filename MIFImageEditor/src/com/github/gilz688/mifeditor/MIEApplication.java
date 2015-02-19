@@ -29,9 +29,11 @@ public class MIEApplication extends Application {
 			primaryStage.setTitle(APPLICATION_NAME);
 			primaryStage.setScene(scene);
 			primaryStage.show();
-
-			MIEView view = (MIEView) loader.getController();
+			
+			final MIEView view = (MIEView) loader.getController();
 			view.setStage(primaryStage);
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

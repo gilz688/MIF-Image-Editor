@@ -23,7 +23,9 @@ public interface MIEInteractor {
 	public void saveImage(MIFImage mifImage, String format, File file)
 			throws FileNotFoundException, IOException;
 
-	public MIFImage drawPixel(MIFImage mifImage, double x, double y,
+	public MIFImage drawPixel(MIFImage mifImage, double rawX, double rawY,
 			double red, double green, double blue);
+
+	public int eyedropper(MIFImage mifImage, double rawX, double rawY);
 	
 }

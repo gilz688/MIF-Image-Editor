@@ -4,9 +4,9 @@ public class MIFImage extends MIF{
 	private int pWidth = -1;
 
 	public MIFImage(int width, int height) {
+		super();
 		int pixels = width * height;
 		putVariable("Depth", String.valueOf(width * height));
-		setup();
 		for (int i = 0; i < pixels; i++) {
 			putData(i, 0);
 		}
@@ -14,13 +14,7 @@ public class MIFImage extends MIF{
 	}
 	
 	public MIFImage() {
-		setup();
-	}
-	
-	public void setup(){
-		putVariable("Width", "6");
-		putVariable("Address_radix", "dec");
-		putVariable("Data_radix", "bin");
+		super();
 	}
 	
 	public int getWidth() {
@@ -29,18 +23,6 @@ public class MIFImage extends MIF{
 
 	public int getHeight() {
 		return size()/pWidth;
-	}
-	
-	public int getDepth(){
-		return Integer.parseInt(getVariable("Depth"));
-	}
-	
-	public int getBitWidth() {
-		return Integer.parseInt(getVariable("Width"));
-	}
-
-	public void setBitWidth(int bitWidth) {
-		putVariable("Width",Integer.toString(bitWidth));
 	}
 	
 	public void setWidth(int width) {

@@ -1,18 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply from: 'javafx.plugin'
-
-eclipse {
-    project {
-        natures 'org.eclipse.jdt.core.javanature', 'org.eclipse.xtext.ui.shared.xtextNature'
-        buildCommand 'org.eclipse.jdt.core.javabuilder'
-        buildCommand 'org.eclipse.xtext.ui.shared.xtextBuilder'
-    }
-
-    classpath {
-        containers 'at.bestsolution.efxclipse.tooling.jdt.core.JAVAFX_CONTAINER'
-    }
-}
 
 repositories {
 	mavenCentral()
@@ -39,6 +25,22 @@ sourceSets {
   }
 }
 
+apply plugin: 'eclipse'
+
+eclipse {
+    project {
+        natures 'org.eclipse.jdt.core.javanature', 'org.eclipse.xtext.ui.shared.xtextNature'
+        buildCommand 'org.eclipse.jdt.core.javabuilder'
+        buildCommand 'org.eclipse.xtext.ui.shared.xtextBuilder'
+    }
+
+    classpath {
+        containers 'at.bestsolution.efxclipse.tooling.jdt.core.JAVAFX_CONTAINER'
+    }
+}
+
+apply from: 'javafx.plugin'
+
 javafx {
     javaRuntime = '<NO RUNTIME>'
     
@@ -49,4 +51,24 @@ javafx {
     jvmArgs = ['-XX:+AggressiveOpts', '-XX:CompileThreshold=1']
     systemProperties = ['prism.disableRegionCaching':'true']
     arguments = ['-l', '--fast']
+}
+
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1'
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
 }

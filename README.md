@@ -1,4 +1,6 @@
 # MIF Image Editor
+[![Build Status](https://travis-ci.org/gilz688/MIF-ImageEditor.svg?branch=master)](https://travis-ci.org/gilz688/MIF-ImageEditor)
+
 
 Description:
 * This application is an editor for 8-bit images stored in Memory Initialization File Format, which is used within Quartus. The editor is capable of converting common image files such as PNG, GIF and BMP to MIF and vice versa.

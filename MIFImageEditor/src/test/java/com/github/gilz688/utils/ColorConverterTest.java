@@ -1,4 +1,4 @@
-package com.github.gilz688.tests.utils;
+package com.github.gilz688.utils;
 
 import static org.junit.Assert.*;
 

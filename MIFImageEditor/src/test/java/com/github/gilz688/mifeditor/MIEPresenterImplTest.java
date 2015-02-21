@@ -1,4 +1,4 @@
-package com.github.gilz688.tests.mifeditor;
+package com.github.gilz688.mifeditor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
